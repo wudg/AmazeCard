@@ -1,0 +1,30 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "animate.css": "4.1.1",
+    "axios": "1.6.0",
+    "vant": "4.7.3",
+    "vue": "3.3.4",
+    "vue-i18n": "9.9.0",
+    "vue-navigation": "1.1.4",
+    "vue-router": "4.2.5"
+  },
+  "devDependencies": {
+    "@babel/core": "7.23.2",
+    "@babel/eslint-parser": "7.22.15",
+    "@vitejs/plugin-vue": "4.2.3",
+    "eslint": "8.52.0",
+    "eslint-plugin-vue": "9.18.1",
+    "less": "4.2.0",
+    "vite": "4.4.5",
+    "vite-plugin-eslint": "1.8.1"
+  }
+}

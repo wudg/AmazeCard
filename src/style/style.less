@@ -1,0 +1,290 @@
+@import './variable.less';
+@import 'animate.css/animate.min.css';
+
+body {
+    color: @color-black;
+    font-size: @fontsize-medium;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    /*阻止菜单弹出*/
+    -webkit-touch-callout: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+html, body{
+    height: calc(100%);
+}
+
+#app {
+    background-color: var(--background);
+    height: calc(100%);
+}
+
+
+// 处理图片缩放时模糊问题
+img {
+    image-rendering: -moz-crisp-edges;
+    /* Firefox */
+    image-rendering: -o-crisp-edges;
+    /* Opera */
+    image-rendering: -webkit-optimize-contrast;
+    /* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+    /* IE (non-standard property) */
+}
+
+.clearfix {
+    clear: both;
+}
+
+.btn-black {
+    background: @color-black;
+    color: @color-white;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.layout-wrapper { 
+}
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.layout-header {
+    width: 100%;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    //min-height: @header-android-height;
+    //padding-top: @header-android-height - @header-default-height;
+
+    // &.ios {
+    //     min-height: @header-ios-height;
+    //     padding-top: @header-ios-height - @header-default-height;
+    // }
+
+    // &.ios-fullscreen {
+    //     min-height: @header-ios-fullscreen-height;
+    //     padding-top: @header-ios-fullscreen-height - @header-default-height;
+    // }
+}
+
+.layout-header__back {
+    padding: 13px 20px;
+}
+
+.layout-header__back-img {
+    width: 9px;
+    display: block;
+}
+
+.layout-header__title {
+    font-size: @fontsize-large;
+    font-weight: 700;
+    text-align: center;
+    height: @header-default-height;
+    line-height: @header-default-height;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.layout-header__handle {
+    font-size: @fontsize-small;
+    text-align: center;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
+    height: @header-default-height;
+}
+
+.layout-header__handle-btn {
+    padding: 15px 0;
+}
+
+.layout-body {
+    width: 100%;
+    flex: 1;
+    overflow: auto;
+    background: transparent;
+}
+.layout-bg {
+    background: url(/src/assets/me_bg.jpg) no-repeat;
+    background-position: 0 0;
+    background-size: 100% 228px;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f7fafd;
+
+    &.none-bg {
+        background-image: none;
+    }
+}
+
+
+.router-view {
+    
+}
+  
+.slide-right-enter-active {
+    animation: slideInRight 0.5s;
+}
+.slide-right-leave-active {
+    animation: slideOutRight 0.3s;
+}
+.slide-left-enter-active {
+    animation: slideInLeft 0.5s;
+}
+.slide-left-leave-active {
+    animation: slideOutLeft 0.3s;
+}
+
+
+.van-overlay {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.van-dialog {
+    width: 280px;
+}
+
+
+.van-dialog__confirm,
+.van-dialog__confirm:active {
+    color: @color-theme-orange;
+}
+
+.van-toast.custom-loading {
+    width: 61px;
+    height: 67px;
+    min-height: 67px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 0.2rem hsla(0, 0%, 44%, .2);
+    padding: 0;
+    overflow: hidden;
+
+    .van-toast__icon {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .van-icon__image {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    .van-toast__icon:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 0;
+        top: 100%;
+        left: 0;
+        background: #ea5413;
+        border-radius: .5rem;
+        z-index: 1;
+        animation: loadingBg 2s linear infinite;
+        -webkit-animation: loadingBg 2s linear infinite;
+    }
+}
+
+.van-dialog__header {
+    padding-top: 14px;
+}
+
+.van-dialog__message--has-title {
+    padding: 24px;
+}
+.van-button--primary {
+    background-color: #5797F8;
+    border: none;
+}
+.van-button {
+    border-radius: 8px;
+}
+.van-button__text {
+    display: flex;
+    align-items: center;
+}
+.van-number-keyboard {
+    z-index: 10000;
+}
+
+@keyframes loadingBg {
+    from {
+        top: 100%;
+        height: 0;
+    }
+
+    to {
+        top: 0;
+        height: 100%;
+    }
+}
+
+@-webkit-keyframes loadingBg {
+    from {
+        top: 100%;
+        height: 0;
+    }
+
+    to {
+        top: 0;
+        height: 100%;
+    }
+}
+
+.backgroundColor-1 {
+    background-image: linear-gradient(310deg,rgb(214,233,255),rgb(214,229,255),rgb(209,214,255),rgb(221,209,255),rgb(243,209,255),rgb(255,204,245),rgb(255,204,223),rgb(255,200,199),rgb(255,216,199),rgb(255,221,199));
+}
+.backgroundColor-2 {
+    background-image: linear-gradient(160deg,rgb(204,251,252),rgb(197,234,254),rgb(189,211,255));
+}
+.backgroundColor-3 {
+    background-image: linear-gradient(150deg,rgb(255,242,158),rgb(255,239,153),rgb(255,231,140),rgb(255,217,121),rgb(255,197,98),rgb(255,171,75),rgb(255,143,52),rgb(255,115,33),rgb(255,95,20),rgb(255,87,15));
+}
+.backgroundColor-4 {
+    background-image: linear-gradient(345deg,rgb(211,89,255),rgb(228,99,255),rgb(255,123,247),rgb(255,154,218),rgb(255,185,208),rgb(255,209,214),rgb(255,219,219));
+}
+.backgroundColor-5 {
+    background-image: linear-gradient(150deg,rgb(0,224,245),rgb(31,158,255),rgb(51,85,255));
+}
+.backgroundColor-6 {
+    background-image: linear-gradient(330deg,rgb(255,25,125),rgb(45,13,255),rgb(0,255,179));
+}
+.backgroundColor-7 {
+    background-image: linear-gradient(150deg,rgb(0,176,158),rgb(19,77,93),rgb(16,23,31));
+}
+.backgroundColor-8 {
+    background-image: linear-gradient(150deg,rgb(95,108,138),rgb(48,59,94),rgb(14,18,38));
+}
+
