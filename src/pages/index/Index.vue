@@ -21,6 +21,7 @@
                     </div>
                 </div>
                 <div class="options-title">{{ $t("options_font_title") }}</div>
+                <div class="options-title">{{ $t("options_theme_title") }}</div>
             </div>
         </div>
     </div>
