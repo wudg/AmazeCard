@@ -20,9 +20,7 @@
                         <div class="backgroundColor" :class="'backgroundColor-' + (index + 1)"></div>
                     </div>
                 </div>
-                
                 <div class="options-title">{{ $t("options_font_title") }}</div>
-                
             </div>
         </div>
     </div>
