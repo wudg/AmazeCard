@@ -24,6 +24,7 @@ import {
     Lazyload,
     Toast,
     Image,
+    Slider,
     Col,
     Row,
     Icon,
@@ -61,6 +62,7 @@ app.use(Overlay);
 app.use(Loading);
 app.use(Popup); 
 app.use(RadioGroup);
+app.use(Slider);
 app.use(Radio);
 app.use(ActionSheet);
 app.use(List);
