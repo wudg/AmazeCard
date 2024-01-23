@@ -11,13 +11,14 @@
   "dependencies": {
     "animate.css": "4.1.1",
     "axios": "1.6.0",
-    "html2canvas": "^1.4.1",
+    "html2canvas": "1.4.1",
+    "qrcode.vue": "3.4.1",
     "vant": "4.7.3",
     "vue": "3.3.4",
     "vue-i18n": "9.9.0",
     "vue-navigation": "1.1.4",
-    "vue-qrcode": "^2.2.0",
-    "vue-router": "4.2.5"
+    "vue-router": "4.2.5",
+    "vue3-slider": "1.9.0"
   },
   "devDependencies": {
     "@babel/core": "7.23.2",

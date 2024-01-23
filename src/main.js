@@ -4,7 +4,8 @@ import 'vant/lib/index.css';
 import './style/style.less';
 import App from './App.vue';
 import en from './langurage/en.js';
-import zh from './langurage/zh.js';
+import zh from './langurage/zh.js'; 
+
 const message = {
     en,
     zh
@@ -23,26 +24,15 @@ html.setAttribute('data-theme', localStorage.getItem('theme'));
 import {
     Lazyload,
     Toast,
-    Image,
-    Slider,
-    Col,
-    Row,
+    Image,  
     Icon,
     Button,
-    Dialog,
-    Overlay,
+    Dialog, 
     Loading,
     Popup,
     RadioGroup,
-    Radio,
-    ActionSheet,
-    List,
-    PasswordInput,
-    NumberKeyboard,
-    Field, 
-    Switch,
-    CellGroup,
-    Form,
+    Radio, 
+    Switch,  
 } from 'vant';
 
 const app = createApp(App);
@@ -52,24 +42,13 @@ app.use(Lazyload, {
     lazyComponent: true
 });
 app.use(Toast);
-app.use(Image);
-app.use(Col);
-app.use(Row);
+app.use(Image); 
 app.use(Icon);
 app.use(Button);
-app.use(Dialog);
-app.use(Overlay);
+app.use(Dialog); 
 app.use(Loading);
 app.use(Popup); 
-app.use(RadioGroup);
-app.use(Slider);
-app.use(Radio);
-app.use(ActionSheet);
-app.use(List);
-app.use(PasswordInput);
-app.use(NumberKeyboard);
-app.use(Field);
-app.use(CellGroup);
-app.use(Switch);
-app.use(Form);
+app.use(RadioGroup); 
+app.use(Radio);    
+app.use(Switch); 
 app.mount('#app');

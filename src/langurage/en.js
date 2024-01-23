@@ -14,8 +14,9 @@ export default {
     options_opaque_light: 'Light',
     contnet_text_title: '😎 Write your memo here:',
     contnet_url_title: '🔗 You can also post a link to the content:',
-    contnet_placeholder: 'Please enter content',
+    contnet_watermark_title: '🪄 Add your own watermark:', 
     clean:'Clean Up',
+    down: 'Down',
     default_Text: `🎨 Turn your text memos into picture cards that can be shared and saved. 
 💡 Write your memo here to try it out.`
 };

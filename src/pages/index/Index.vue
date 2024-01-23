@@ -7,15 +7,23 @@
                         <p :style="config.color">
                             {{ config.content }}
                         </p>
-                        <div ref="qrcodeContainer"></div>
+                        <div v-if="qrCode" class="qrCode">
+                            <qrcode-vue :value="qrCode" :size="52"></qrcode-vue>
+                        </div>
                     </div>
-                    <p class="watermark">AmazeCard</p>
+                    <p class="watermark">{{ config.watermark }}</p>
                 </div>
             </div>
             <div class="bottom">
-                <div class="input-title">
-                    <div class="input-title-left">
-                        {{ $t("contnet_text_title") }}
+                <div class="input-title"> 
+                    <!-- 标签 -->
+                    <div class="icon flex">
+                        <div class="smile" @click="clickShowEmjo()">
+                            <van-icon name="smile-o" class=""/>
+                        </div>
+                        <div class="expression" v-show="emjoShow">
+                            <span class="emjo" :title="item.name" v-for="(item, index) in emjoList" :key="index" @click="clickEmjo(item.lable)">{{ item.lable }}</span>
+                        </div>
                     </div>
                     <div class="input-icon" @click="config.content = ''">
                         {{ $t("clean") }}
@@ -23,7 +31,7 @@
                 </div>
 
                 <div class="textarea-content">
-                    <textarea class="textarea__inner" v-model="config.content" :placeholder="$t('contnet_placeholder')"></textarea>
+                    <textarea class="textarea__inner" ref="textarea" v-model="config.content" :placeholder="$t('contnet_text_title')"></textarea>
                 </div>
 
                 <div class="input-title">
@@ -35,75 +43,94 @@
                     </div>
                 </div>
                 <div class="input-http">
-                    <input class="input__inner" v-model="config.http" @input="updateQRCode" placeholder="http://······"/>
+                    <input class="input__inner" v-model="config.http" @input="updateQRCode" placeholder="http://······" />
                 </div>
+                <div class="flex">
+                    <div class="flex-item">
+                        <div class="input-title">
+                            <div class="input-title-left">
+                                {{ $t("contnet_watermark_title") }}
+                            </div>
+                            <div class="input-icon" @click="config.watermark = ''">
+                                {{ $t("clean") }}
+                            </div>
+                        </div>
+                        <div class="input-http">
+                            <input class="input__inner" v-model="config.watermark" @input="updateQRCode" placeholder="AmazeCard" />
+                        </div>
+                    </div>
+
+                </div>
+                
+
+
             </div>
         </div>
         <div class="right">
             <div class="options">
                 <!-- 配色 -->
-                <div class="options-title">{{ $t("options_bgc_title") }}</div>
-                <div class="select-color">
-                    <div class="color-item" v-for="(item, index) in colorOptions" :key="item" :class="{'active': config.backgroundColor === item}" @click="selectColor(item)">
-                        <div class="backgroundColor" :class="'backgroundColor-' + (index + 1)"></div>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_bgc_title") }}</div>
+                    <div class="select-color">
+                        <div class="color-item" v-for="(item, index) in colorOptions" :key="item" :class="{'active': config.backgroundColor === item}" @click="selectColor(item)">
+                            <div class="backgroundColor" :class="'backgroundColor-' + (index + 1)"></div>
+                        </div>
                     </div>
                 </div>
                 <!-- 字体 -->
-                <div class="options-title">{{ $t("options_font_title") }}</div>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_font_title") }}</div>
+                </div>
                 <!-- 外观 -->
-                <div class="options-title">{{ $t("options_theme_title") }}</div>
-                <div class="theme-select">
-                    <van-radio-group v-model="theme" @change="integrationTheme">
-                        <van-radio :name="0">{{ $t("options_opaque_dark") }}</van-radio>
-                        <van-radio :name="1">{{ $t("options_opaque_light") }}</van-radio>
-                    </van-radio-group>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_theme_title") }}</div>
+                    <div class="theme-select">
+                        <van-radio-group v-model="theme" @change="integrationTheme">
+                            <van-radio :name="0">{{ $t("options_opaque_dark") }}</van-radio>
+                            <van-radio :name="1">{{ $t("options_opaque_light") }}</van-radio>
+                        </van-radio-group>
+                    </div>
                 </div>
                 <!-- 透明度 -->
-                <div class="options-title">{{ $t("options_opaque_title") }}</div>
-                <van-slider v-model="opacity" :max="101" @change="integrationTheme">
-                    <template #button>
-                        <div class="custom-button">{{ opacity }}</div>
-                    </template>
-                </van-slider>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_opaque_title") }}</div>
+                    <vue3-slider v-model="opacity" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
+                </div>
                 <!-- 卡片边角 -->
-                <div class="options-title">{{ $t("options_round_title") }}</div>
-                <van-slider v-model="radius" :max="51" @change="integrationTheme">
-                    <template #button>
-                        <div class="custom-button">{{ radius }}</div>
-                    </template>
-                </van-slider>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_round_title") }}</div>
+                    <vue3-slider v-model="radius" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
+                </div>
                 <!-- 背景尺寸 上下 -->
-                <div class="options-title">{{ $t("options_bgSzUpDown_title") }}</div>
-                <van-slider v-model="marginUpDown" :max="201" @change="integrationTheme">
-                    <template #button>
-                        <div class="custom-button">{{ marginUpDown }}</div>
-                    </template>
-                </van-slider>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_bgSzUpDown_title") }}</div>
+                    <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                </div>
                 <!-- 背景尺寸 左右 -->
-                <div class="options-title">{{ $t("options_bgSzAbout_title") }}</div>
-                <van-slider v-model="marginAbout" :max="201" @change="integrationTheme">
-                    <template #button>
-                        <div class="custom-button">{{ marginAbout }}</div>
-                    </template>
-                </van-slider>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_bgSzAbout_title") }}</div>
+                    <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                </div>
                 <!-- 卡片尺寸 上下 -->
-                <div class="options-title">{{ $t("options_cardSzUpDown_title") }}</div>
-                <van-slider v-model="paddingUpDown" :max="201" @change="integrationTheme">
-                    <template #button>
-                        <div class="custom-button">{{ paddingUpDown }}</div>
-                    </template>
-                </van-slider>
-                <!-- 卡片尺寸 左右 -->
-                <div class="options-title">{{ $t("options_cardSzAbout_title") }}</div>
-                <van-slider v-model="paddingAbout" :max="201" @change="integrationTheme">
-                    <template #button>
-                        <div class="custom-button">{{ paddingAbout }}</div>
-                    </template>
-                </van-slider>
-                <button @click="captureElement">生成图片</button>
+                <div class="module">
+                    <div class="options-title">{{ $t("options_cardSzUpDown_title") }}</div>
+                    <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                </div>
+                <div class="module">
+                    <!-- 卡片尺寸 左右 -->
+                    <div class="options-title">{{ $t("options_cardSzAbout_title") }}</div>
+                    <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                </div>
+                
+                <van-button type="primary" class="dow" @click="captureElement">
+                    <van-icon name="down" />{{ $t("down") }}
+                </van-button>
 
             </div>
         </div>
+
+        <!-- 遮罩 -->
+        <div class="mask" v-show="emjoShow" @click="emjoShow = false"></div>
     </div>
 </template>
 
@@ -114,41 +141,21 @@ import interfaces from '../../api/interfaces';
 import { useSetUser, useAuth } from '../../util/composables';
 import { showSuccessToast, showFailToast, showLoadingToast, showConfirmDialog, closeToast } from 'vant';
 import { useRouter } from 'vue-router';
-import html2canvas from 'html2canvas';
-import VueQrcode from 'vue-qrcode';
+import html2canvas from 'html2canvas'; 
 import util from '../../util/util';
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'; 
+import vue3Slider from 'vue3-slider';
+import QrcodeVue from 'qrcode.vue';
+import emjo from '../../assets/expression.json';
 
 // 获取 i18n 实例
-const { t } = useI18n();
-// 数据部分
-const qrCodeValue = ref('http://192.168.31.208:5177'); // 这是二维码的内容，可以动态绑定
-const qrCodeSize = ref(256); // 二维码的尺寸，单位是像素
-
-
-// 使用VueQrcode组件生成二维码
-const QrCodeComponent = VueQrcode.component;
-
-// 在DOM元素上渲染二维码
-const qrcodeContainer = ref(null);
-
-// 如果需要动态更新二维码内容
-function updateQRCode() {
-    qrCodeValue.value = config.value.http;
-    console.log(qrCodeValue.value);
-    // 部分库可能支持直接更新，否则可能需要重新创建实例
-    // 若需重新创建，请确保先销毁旧实例（如果适用）
-};
+const { t } = useI18n(); 
+const qrCode = ref(null);
+const emjoList = ref(emjo);
+const emjoShow = ref(false);
+const textarea = ref();
 
 onMounted(() => {
-    if (qrcodeContainer.value) {
-        const QRCodeInstance = new QrCodeComponent({
-            container: qrcodeContainer.value,
-            value: qrCodeValue.value,
-            size: qrCodeSize.value,
-        });
-        QRCodeInstance.make();
-    }
 });
 
 let opacity = ref(50);
@@ -195,7 +202,28 @@ let colorOptions = ref([
     'backgroundColor-6',
     'backgroundColor-7',
     'backgroundColor-8',
+    'backgroundColor-9',
+    'backgroundColor-10',
+    'backgroundColor-11',
+    'backgroundColor-12',
+
 ]);
+const clickShowEmjo = () => {
+    emjoShow.value = true;
+};
+// 点击图标
+const clickEmjo = (item) => {
+    emjoShow.value = false; 
+     
+    const endoPs = textarea.value.selectionEnd; // 获取光标结束位置 
+
+    config.value.content = (config.value.content).slice(0, endoPs) + item + (config.value.content).slice(endoPs);
+
+    // 重新设置光标位置
+    textarea.value.selectionStart = endoPs + item.length;
+    textarea.value.selectionEnd = endoPs + item.length;
+    textarea.value.focus(); // 使 textarea 获得焦点
+};
 
 // 配置参数
 let config = ref({
@@ -208,8 +236,14 @@ let config = ref({
     padding: '', // 背景上下尺寸
     content: '', // 内容
     http: '', // 内容
+    watermark: 'AmazeCard',
 });
 
+
+const updateQRCode = () => {
+    qrCode.value = config.value.http;
+};
+ 
 // 设置背景色
 const selectColor = (item) => {
     config.value.backgroundColor = item;
@@ -223,12 +257,11 @@ const integrationTheme = () => {
     config.value.radius = `border-radius: ${radius.value}px`; 
     config.value.margin = `margin: ${marginUpDown.value}px ${marginAbout.value}px`;
     config.value.padding = `padding: ${paddingUpDown.value}px ${paddingAbout.value}px`;
-    config.value.content = t('default_Text');
 };
 
 
 onBeforeMount(async () => {
-
+    config.value.content = t('default_Text');
     integrationTheme();
 }); 
 
@@ -268,8 +301,7 @@ onBeforeMount(async () => {
         background: var(--current-block-background-color);
         transition: all .1s;
         border-radius: 16px;
-        margin-top: 20px;
-        overflow: hidden;
+        margin-top: 20px; 
     }
 
     .options {
@@ -366,6 +398,7 @@ onBeforeMount(async () => {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-top: 16px;
     }
     .input-title-left {
         flex: 1; 
@@ -387,7 +420,7 @@ onBeforeMount(async () => {
         display: inline-block;
         width: 100%;
         vertical-align: bottom;
-        margin: 16px 0;
+        margin: 4px 0 0;
         font-size: 14px;
     }
     .textarea__inner {
@@ -416,8 +449,8 @@ onBeforeMount(async () => {
         padding: 8px 12px;
         border-radius: 6px;
         resize: none; 
-        min-height: 30px; 
-        height: 30px;
+        min-height: 42px; 
+        height: 42px;
         transition: all 0.1s;
         background: transparent;
         border: none;
@@ -448,6 +481,67 @@ onBeforeMount(async () => {
     /* 标准语法 */
     ::placeholder {
         color: var(--color-placeholder); /* 设置为紫色 */
+    }
+
+    .module {
+        margin-bottom: 20px;
+    }
+
+    .dow {
+        width: 120px;
+    }
+    .qrCode {
+        margin-top: 12px;  
+        display: flex;
+        flex-direction: row-reverse;
+        canvas { 
+            padding: 4px;
+            border-radius: 4px;
+            background-color: #fff;
+            display: block;
+        }
+    }
+    .icon { 
+        position: relative;
+    }
+    .expression {
+        position: absolute;
+        background: var(--current-block-background-color);
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 50px -20px #00000080;
+        bottom: 36px;
+        left: 0; 
+        z-index: 2;
+        width: 447px;
+        max-height: 500px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .emjo {
+        font-size: 24px;
+        cursor: pointer;
+        margin: 6px;
+        border: 1px solid var(--current-block-background-color);
+        &:hover {
+            border: 1px solid var(--theme-color);
+        }
+    }
+    .smile {
+        font-size: 28px;
+        cursor: pointer;
+        transition: all .1s;
+        color: var(--text);
+        &:hover {
+            color: var(--theme-color);
+        }
+    }
+    .mask {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
     }
 }
 </style>
