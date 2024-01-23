@@ -30,4 +30,4 @@ Generate exquisite images with just one click based on text and emoticons
 
 ## Contact me
 
-![wechat1](./images/wechat1.jpg)
+<img src="./images/wechat1.jpg" style="width:300px;height:400px">
