@@ -1,8 +1,13 @@
 # AmazeCard
 
+## 语言选择
+
 - [Chinese](./README.md)
 - [English](./README.EN.md)
 
+## 在线访问
+
+http://card.wudiguang.top/
 
 ## About
 
