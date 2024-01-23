@@ -94,32 +94,32 @@
                 <!-- 透明度 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_opaque_title") }}</div>
-                    <vue3-slider v-model="opacity" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
+                    <vue3-slider v-model="opacity" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
                 </div>
                 <!-- 卡片边角 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_round_title") }}</div>
-                    <vue3-slider v-model="radius" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
+                    <vue3-slider v-model="radius" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
                 </div>
                 <!-- 背景尺寸 上下 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_bgSzUpDown_title") }}</div>
-                    <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                    <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
                 </div>
                 <!-- 背景尺寸 左右 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_bgSzAbout_title") }}</div>
-                    <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                    <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
                 </div>
                 <!-- 卡片尺寸 上下 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_cardSzUpDown_title") }}</div>
-                    <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                    <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
                 </div>
                 <div class="module">
                     <!-- 卡片尺寸 左右 -->
                     <div class="options-title">{{ $t("options_cardSzAbout_title") }}</div>
-                    <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                    <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
                 </div>
                 
                 <van-button type="primary" class="dow" @click="captureElement">
@@ -208,6 +208,7 @@ let colorOptions = ref([
     'backgroundColor-12',
 
 ]);
+
 const clickShowEmjo = () => {
     emjoShow.value = true;
 };
