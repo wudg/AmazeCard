@@ -35,7 +35,6 @@ Generate exquisite images with just one click based on text and emoticons
 3. Real time rendering renderings
 4. Customization of various card styles
 5. You can generate the corresponding QR code in the image based on the provided link
-6. Etc
 
 ## Contact me
 
