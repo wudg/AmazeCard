@@ -39,3 +39,8 @@ Generate exquisite images with just one click based on text and emoticons
 ## Contact me
 
 <img src="./images/wechat1.jpg" style="width:300px;height:400px">
+
+
+## 1.0.1 2024-01-24 20:25
+1.Add the function of copying as an image
+2.Modify the operating range of the slider

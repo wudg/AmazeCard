@@ -122,10 +122,14 @@
                     <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
                 </div>
                 
-                <van-button type="primary" class="dow" @click="captureElement">
-                    <van-icon name="down" />{{ $t("down") }}
-                </van-button>
-
+                <div class="button-group flex">
+                    <van-button class="dow copy" @click="copyImg">
+                        <van-icon name="certificate" />{{ $t("copy") }}
+                    </van-button>
+                    <van-button type="primary" class="dow" @click="captureElement">
+                        <van-icon name="down" />{{ $t("down") }}
+                    </van-button>
+                </div>
             </div>
         </div>
 
@@ -139,7 +143,7 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 import { get, post } from '../../api/http';
 import interfaces from '../../api/interfaces';
 import { useSetUser, useAuth } from '../../util/composables';
-import { showSuccessToast, showFailToast, showLoadingToast, showConfirmDialog, closeToast } from 'vant';
+import { showToast, closeToast } from 'vant';
 import { useRouter } from 'vue-router';
 import html2canvas from 'html2canvas'; 
 import util from '../../util/util';
@@ -177,6 +181,7 @@ async function captureElement() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
+                scale: 4
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -193,6 +198,42 @@ async function captureElement() {
         }
     }
 }
+
+// 复制图片
+async function copyImg() {
+    if (contentToCapture.value) {
+        try {
+            // 使用html2canvas将指定元素渲染到canvas上
+            const canvas = await html2canvas(contentToCapture.value, {
+                useCORS: true, // 如果有跨域资源，设置为true
+                backgroundColor: '#fff', // 设置背景颜色，默认为白色
+                scale: 4
+                // 可以根据需要添加更多配置选项
+            });
+            // 将canvas转为图片URL
+            const imgData = canvas.toDataURL('image/png');
+            copyBase64Img(imgData);
+        } catch (error) {
+            console.error('生成图片时出错:', error);
+        }
+    }
+};
+
+
+/*复制Base64图片*/
+const copyBase64Img = (base64Data) => {
+    location.origin.includes('https://') || showToast('图片复制功能需要在https://协议下使用');
+    //将base64转为Blob类型
+    base64Data = base64Data.split(';base64,'); let type = base64Data[0].split('data:')[1]; base64Data = base64Data[1];
+    let bytes = atob(base64Data), ab = new ArrayBuffer(bytes.length), ua = new Uint8Array(ab);
+    [...Array(bytes.length)].forEach((v, i) => ua[i] = bytes.charCodeAt(i));
+    let blob = new Blob([ab], { type });
+    // “navigator.clipboard.write”该方法的确只能在本地localhost 、127.0.0.1 或者 https 协议下使用，否则navigator没有clipboard方法。
+    navigator.clipboard.write([new ClipboardItem({ [type]: blob })]);
+    showToast('已复制到你的剪贴板');
+};
+    
+
 let colorOptions = ref([
     'backgroundColor-1',
     'backgroundColor-2',
@@ -215,11 +256,8 @@ const clickShowEmjo = () => {
 // 点击图标
 const clickEmjo = (item) => {
     emjoShow.value = false; 
-     
     const endoPs = textarea.value.selectionEnd; // 获取光标结束位置 
-
     config.value.content = (config.value.content).slice(0, endoPs) + item + (config.value.content).slice(endoPs);
-
     // 重新设置光标位置
     textarea.value.selectionStart = endoPs + item.length;
     textarea.value.selectionEnd = endoPs + item.length;
@@ -487,7 +525,9 @@ onBeforeMount(async () => {
     .module {
         margin-bottom: 20px;
     }
-
+    .copy {
+        margin-right: 12px;
+    }
     .dow {
         width: 120px;
     }
@@ -543,6 +583,10 @@ onBeforeMount(async () => {
         right: 0;
         top: 0;
         bottom: 0;
+    }
+
+    .button-group {
+        align-items: center;
     }
 }
 </style>

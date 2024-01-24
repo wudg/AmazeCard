@@ -17,6 +17,7 @@ export default {
     contnet_watermark_title: '🪄 还可以添加自己的水印:',
     clean: '清除',
     down: '下载',
+    copy: '复制',
     default_Text: `🎨 MemoCard 可以帮你生成精美的卡片，可应用于你日常书摘、笔记、备忘等内容的分享。
 💡 你可以在这里输入文字尝试一下，实时生效。`
 };

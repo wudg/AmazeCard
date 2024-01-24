@@ -17,6 +17,7 @@ export default {
     contnet_watermark_title: '🪄 Add your own watermark:', 
     clean:'Clean Up',
     down: 'Down',
+    copy: 'Copy',
     default_Text: `🎨 Turn your text memos into picture cards that can be shared and saved. 
 💡 Write your memo here to try it out.`
 };
