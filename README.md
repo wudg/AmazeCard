@@ -41,3 +41,7 @@ AmazeCard是一个在线工具，可以将文字和表情符号转换为图片�
 ## 联系我
 
 <img src="./images/wechat1.jpg" style="width:300px;height:400px">
+
+## 1.0.1 2024-01-24 20:25
+1.添加复制成图片功能
+2.修改滑块的操作范围
