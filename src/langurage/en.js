@@ -12,12 +12,16 @@ export default {
     options_cardSzAbout_title: 'Card Size About',
     options_opaque_dark: 'Dark',
     options_opaque_light: 'Light',
+    options_watermark_text: 'Text',
+    options_watermark_img: 'Image',
     contnet_text_title: '😎 Write your memo here:',
     contnet_url_title: '🔗 You can also post a link to the content:',
     contnet_watermark_title: '🪄 Add your own watermark:', 
     clean:'Clean Up',
     down: 'Down',
     copy: 'Copy',
+    copy: '复制',
+    selectImg: 'select Image',
     default_Text: `🎨 Turn your text memos into picture cards that can be shared and saved. 
 💡 Write your memo here to try it out.`
 };

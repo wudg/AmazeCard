@@ -44,3 +44,10 @@ Generate exquisite images with just one click based on text and emoticons
 ## 1.0.1 2024-01-24 20:25
 1.Add the function of copying as an image
 2.Modify the operating range of the slider
+
+
+
+### V1.0.2 2024-01-25 21:20
+
+1. Add font selection function
+2. Cards support custom logos 

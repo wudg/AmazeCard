@@ -4,14 +4,15 @@
             <div class="top">
                 <div class="content-box" ref="contentToCapture" :class="config.backgroundColor">
                     <div class="content" :style="[config.theme, config.radius, config.margin, config.padding]">
-                        <p :style="config.color">
+                        <p :style="config.color" :class="[config.fontFamily]">
                             {{ config.content }}
                         </p>
                         <div v-if="qrCode" class="qrCode">
                             <qrcode-vue :value="qrCode" :size="52"></qrcode-vue>
                         </div>
                     </div>
-                    <p class="watermark">{{ config.watermark }}</p>
+                    <p class="watermark" v-show="config.watermarkType === 0">{{ config.watermark }}</p>
+                    <img v-show="config.watermarkType === 1" :src="config.watermarkImageUrl" class="watermarkImage">
                 </div>
             </div>
             <div class="bottom">
@@ -51,13 +52,31 @@
                             <div class="input-title-left">
                                 {{ $t("contnet_watermark_title") }}
                             </div>
+                            <!-- 水印文本或图片 -->
+                            <div class="theme-select">
+                                <van-radio-group v-model="config.watermarkType">
+                                    <van-radio :name="0">{{ $t("options_watermark_text") }}</van-radio>
+                                    <van-radio :name="1">{{ $t("options_watermark_img") }}</van-radio>
+                                </van-radio-group>
+                            </div>
+                            
                             <div class="input-icon" @click="config.watermark = ''">
                                 {{ $t("clean") }}
                             </div>
                         </div>
-                        <div class="input-http">
-                            <input class="input__inner" v-model="config.watermark" @input="updateQRCode" placeholder="AmazeCard" />
+                        <div class="input-http" v-show="config.watermarkType === 0">
+                            <input class="input__inner" v-model="config.watermark" placeholder="AmazeCard" />
                         </div>
+                        <!-- 选择图片 -->
+                        <div class="input-http" v-show="config.watermarkType === 1">
+                        
+                            <van-button @click="selectImg">
+                                <van-icon name="certificate" />{{ $t("selectImg") }}
+                            </van-button>
+
+                            <img :src="config.watermarkImageUrl" class="preview">
+                        </div>
+
                     </div>
 
                 </div>
@@ -80,6 +99,11 @@
                 <!-- 字体 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_font_title") }}</div>
+                    <div class="font-select">
+                        <div class="font-family" v-for="item in fontOption" :key="item.value" :class="{fontFamilyOn: config.fontFamily === item.value}" @click="selecttFontFamily(item.value)">
+                            {{ item.name }}
+                        </div>
+                    </div>
                 </div>
                 <!-- 外观 -->
                 <div class="module">
@@ -218,8 +242,6 @@ async function copyImg() {
         }
     }
 };
-
-
 /*复制Base64图片*/
 const copyBase64Img = (base64Data) => {
     location.origin.includes('https://') || showToast('图片复制功能需要在https://协议下使用');
@@ -233,6 +255,20 @@ const copyBase64Img = (base64Data) => {
     showToast('已复制到你的剪贴板');
 };
     
+let fontOption = ref([
+    {
+        name: '霞鹜新晰黑',
+        value: 'xinxihei'
+    },
+    {
+        name: '玄冬楷书',
+        value: 'xuandongkaishu'
+    },
+    {
+        name: 'Borel',
+        value: 'borel'
+    }
+]);
 
 let colorOptions = ref([
     'backgroundColor-1',
@@ -264,6 +300,25 @@ const clickEmjo = (item) => {
     textarea.value.focus(); // 使 textarea 获得焦点
 };
 
+const selectImg = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener('load', function() {
+                const imageUrl = reader.result;
+                config.value.watermarkImageUrl = imageUrl;
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+    fileInput.click();
+};
+
 // 配置参数
 let config = ref({
     backgroundColor: 'backgroundColor-1',
@@ -275,6 +330,9 @@ let config = ref({
     padding: '', // 背景上下尺寸
     content: '', // 内容
     http: '', // 内容
+    watermarkType: 0, // 水印类型
+    watermarkImageUrl: '', // 水印图片
+    fontFamily: 'xinxihei',
     watermark: 'AmazeCard',
 });
 
@@ -286,6 +344,11 @@ const updateQRCode = () => {
 // 设置背景色
 const selectColor = (item) => {
     config.value.backgroundColor = item;
+};
+
+// 选择字体
+const selecttFontFamily = (item) => {
+    config.value.fontFamily = item;
 };
 
 const integrationTheme = () => {
@@ -406,7 +469,6 @@ onBeforeMount(async () => {
     }
     .van-radio-group {
         display: flex;
-        margin-bottom: 12px;
     }
     .van-radio {
         margin-right: 24px;
@@ -587,6 +649,34 @@ onBeforeMount(async () => {
 
     .button-group {
         align-items: center;
+    }
+    .font-select {
+        display: flex;
+    }
+    .font-family {
+        cursor: pointer;
+        background: #e8e8e8;
+        border-radius: 4px;
+        padding: 6px 8px;
+        margin-right: 12px;
+        text-align: center;
+        transition: all .1s ease;
+        cursor: pointer;
+    }
+    .fontFamilyOn {
+        background: var(--theme-color);
+        color: #fff;
+    }
+    .preview {
+        vertical-align: bottom;
+        height: 40px;
+        margin-left: 12px;
+    }
+    .watermarkImage {
+        position: absolute;
+        right: 24px;
+        bottom: 12px;
+        height: 22px;
     }
 }
 </style>
