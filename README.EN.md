@@ -51,3 +51,8 @@ Generate exquisite images with just one click based on text and emoticons
 
 1. Add font selection function
 2. Cards support custom logos 
+
+
+### V1.0.3 2024-01-26 16:50
+
+1. Adapt to mobile devices

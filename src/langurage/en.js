@@ -21,6 +21,7 @@ export default {
     down: 'Down',
     copy: 'Copy',
     copy: '复制',
+    setUp: 'Set Up',
     selectImg: 'select Image',
     default_Text: `🎨 Turn your text memos into picture cards that can be shared and saved. 
 💡 Write your memo here to try it out.`

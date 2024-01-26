@@ -129,7 +129,7 @@ const selectOption = (option) => {
         list-style-type: none;
         padding: 6px 0;
         margin-left: -45px; 
-        z-index: 1;
+        z-index: 2;
         background-color: var(--background);
         border-radius: 6px;
         box-shadow: 0px 0px 2px 0px #e9e9e9;
@@ -156,6 +156,13 @@ const selectOption = (option) => {
             color: var(--theme-color);
             font-size: 16px;
         }
+    }
+}
+
+
+@media (max-width: 1000px) {
+    .head {
+        padding: 0 12px;
     }
 }
 </style>

@@ -22,6 +22,7 @@ export default {
     clean: '清除',
     down: '下载',
     copy: '复制',
+    setUp: '设置',
     selectImg: '选择图片',
     default_Text: `🎨 MemoCard 可以帮你生成精美的卡片，可应用于你日常书摘、笔记、备忘等内容的分享。
 💡 你可以在这里输入文字尝试一下，实时生效。`

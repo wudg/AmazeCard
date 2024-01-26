@@ -1,5 +1,5 @@
 <template>
-    <div class="layout-wrapper">  
+    <div class="layout-wrapper" ref="container">  
         <div class="left">
             <div class="top">
                 <div class="content-box" ref="contentToCapture" :class="config.backgroundColor">
@@ -15,7 +15,36 @@
                     <img v-show="config.watermarkType === 1" :src="config.watermarkImageUrl" class="watermarkImage">
                 </div>
             </div>
-            <div class="bottom">
+            <div class="top mobile">
+                <div class="content-box" :class="config.backgroundColor">
+                    <div class="content" :style="[config.theme, config.radius, config.margin, config.padding]">
+                        <p :style="config.color" :class="[config.fontFamily]">
+                            {{ config.content }}
+                        </p>
+                        <div v-if="qrCode" class="qrCode">
+                            <qrcode-vue :value="qrCode" :size="52"></qrcode-vue>
+                        </div>
+                    </div>
+                    <p class="watermark" v-show="config.watermarkType === 0">{{ config.watermark }}</p>
+                    <img v-show="config.watermarkType === 1" :src="config.watermarkImageUrl" class="watermarkImage">
+                </div>
+                <div class="mobile select flex">
+                    <van-button type="success" class="dow copy" @click="scrollToTarget">
+                        <van-icon name="fire-o" />{{ $t("setUp") }}
+                    </van-button>
+                    <van-button class="dow copy" @click="copyImg">
+                        <van-icon name="certificate" />{{ $t("copy") }}
+                    </van-button>
+                    <van-button type="primary" class="dow" @click="captureElement">
+                        <van-icon name="down" />{{ $t("down") }}
+                    </van-button>
+                </div>
+            </div>
+
+
+
+
+            <div class="bottom" ref="target">
                 <div class="input-title"> 
                     <!-- 标签 -->
                     <div class="icon flex">
@@ -60,7 +89,7 @@
                                 </van-radio-group>
                             </div>
                             
-                            <div class="input-icon" @click="config.watermark = ''">
+                            <div class="input-icon" @click="config.watermark = '', config.watermarkImageUrl = ''">
                                 {{ $t("clean") }}
                             </div>
                         </div>
@@ -69,11 +98,9 @@
                         </div>
                         <!-- 选择图片 -->
                         <div class="input-http" v-show="config.watermarkType === 1">
-                        
                             <van-button @click="selectImg">
                                 <van-icon name="certificate" />{{ $t("selectImg") }}
                             </van-button>
-
                             <img :src="config.watermarkImageUrl" class="preview">
                         </div>
 
@@ -110,8 +137,8 @@
                     <div class="options-title">{{ $t("options_theme_title") }}</div>
                     <div class="theme-select">
                         <van-radio-group v-model="theme" @change="integrationTheme">
-                            <van-radio :name="0">{{ $t("options_opaque_dark") }}</van-radio>
-                            <van-radio :name="1">{{ $t("options_opaque_light") }}</van-radio>
+                            <van-radio :name="0">{{ $t("options_opaque_light") }}</van-radio>
+                            <van-radio :name="1">{{ $t("options_opaque_dark") }}</van-radio>
                         </van-radio-group>
                     </div>
                 </div>
@@ -182,9 +209,8 @@ const qrCode = ref(null);
 const emjoList = ref(emjo);
 const emjoShow = ref(false);
 const textarea = ref();
+const target = ref(null); // 创建一个 ref
 
-onMounted(() => {
-});
 
 let opacity = ref(50);
 let radius = ref(12);
@@ -222,6 +248,11 @@ async function captureElement() {
         }
     }
 }
+
+const scrollToTarget = () => {
+    target.value.scrollIntoView(); // 滚动到目标位置
+
+};
 
 // 复制图片
 async function copyImg() {
@@ -370,313 +401,6 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="less">
-.layout-wrapper {
-    display: flex;
-    width: 100%;  
-    max-width: 1200px;
-    margin: 0 auto;
-
-    .left {
-        flex: 2; 
-        margin-right: 24px;
-    }
-    .right {
-        flex: 1; 
-    }
-
-    .top {
-        position: relative;
-        background: var(--current-block-background-color);
-        padding: 20px;
-        min-height: 300px;
-        border-radius: 16px;
-        box-shadow: 2px 2px 50px -20px #00000080;
-        
-        transition: all .1s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .bottom {
-        padding: 10px 20px 30px;
-        box-shadow: 2px 2px 50px -20px #00000080;
-        background: var(--current-block-background-color);
-        transition: all .1s;
-        border-radius: 16px;
-        margin-top: 20px; 
-    }
-
-    .options {
-        position: relative;
-        padding: 20px 20px;
-        box-shadow: 2px 2px 50px -20px #00000080;
-        background: var(--current-block-background-color);
-        transition: all .1s;
-        border-radius: 16px;
-        overflow: hidden;
-        z-index: 0;
-    }
-
-    .content-box {
-        position: relative; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .content {
-        font-size: 14px; 
-        line-height: 26px;
-        letter-spacing: .4px;
-        white-space: pre-wrap;
-        word-break: break-word;
-        border: 1px solid hsla(0,0%,100%,.1);
-
-    }
-    .options-title { 
-        margin-bottom: 5px;
-        font-size: 14px;
-        height: 30px;
-        line-height: 30px;
-        font-weight: 700;
-        color: var(--text);
-    }
-
-    .select-color {
-        display: grid;
-        grid-template-columns: repeat(6,1fr);
-        grid-gap: 4px;
-        margin-top: 4px; 
-    }
-
-    .color-item {
-        width: 48px;
-        border: 2px solid var(--current-block-background-color);
-        padding: 2px;
-        transition: all .1s;
-        border-radius: 8px;
-        margin-bottom: 12px;
-    }
-    
-    .color-item.active {
-        border: 2px solid var(--theme-color);
-    }
-    .backgroundColor {
-        width: 40px;
-        height: 40px;
-        border-radius: 4px;
-        box-shadow: inset 0 0 #fff, inset 0 0 0 2px #0000000d, 0 4px 6px -1px #0000001a, 0 2px 4px -1px #0000000f, 0 0 #0000;
-        cursor: pointer;
-    }
-    .van-radio-group {
-        display: flex;
-    }
-    .van-radio {
-        margin-right: 24px;
-        .van-radio__label {
-            color: var(--text) !important;
-        }
-    }
-
-    .custom-button {
-        width: 26px;
-        color: #fff;
-        font-size: 10px;
-        line-height: 18px;
-        text-align: center;
-        background-color: var(--theme-color);
-        border-radius: 100px;
-    }
-
-    .watermark {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        font-size: 12px;
-        color: #fff;
-        transform: scale(.8);
-    }
-    .input-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 16px;
-    }
-    .input-title-left {
-        flex: 1; 
-        font-size: 14px;
-        color: var(--text);
-        font-weight: 700;
-    }
-    .input-icon {
-        cursor: pointer;
-        font-size: 14px;
-        color: var(--text);
-        font-weight: 700;
-    }
-    .input-icon:hover{
-        color: var(--theme-color);
-    }
-    .textarea-content {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        vertical-align: bottom;
-        margin: 4px 0 0;
-        font-size: 14px;
-    }
-    .textarea__inner {
-        padding: 8px 12px;
-        border-radius: 6px;
-        resize: none; 
-        min-height: 100px; 
-        height: 100px;
-        transition: all 0.1s;
-        border: none;
-        background: transparent;
-        display: block;
-        box-shadow: 0 0 0 1px var(--border-color-input) inset;
-        width: 100%;
-        color: var(--text);
-    }
-    .input-http {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        vertical-align: bottom;
-        margin-top: 16px;
-        font-size: 14px;
-    }
-    .input__inner {
-        padding: 8px 12px;
-        border-radius: 6px;
-        resize: none; 
-        min-height: 42px; 
-        height: 42px;
-        transition: all 0.1s;
-        background: transparent;
-        border: none;
-        display: block;
-        box-shadow: 0 0 0 1px var(--border-color-input) inset;
-        width: 100%;
-        color: var(--text);
-    }
-
-    .textarea__inner:hover, .input__inner:hover {
-        box-shadow: 0 0 0 1px var(--border-color) inset;
-    }
-    /* Chrome、Safari等WebKit内核浏览器 */
-    :-webkit-input-placeholder {
-        color: var(--color-placeholder); /* 设置为红色 */
-    }
-    
-    /* Firefox浏览器 */
-    ::-moz-placeholder {
-        color: var(--color-placeholder); /* 设置为蓝色 */
-    }
-    
-    /* IE10及其之后版本 */
-    :-ms-input-placeholder {
-        color: var(--color-placeholder); /* 设置为绿色 */
-    }
-    
-    /* 标准语法 */
-    ::placeholder {
-        color: var(--color-placeholder); /* 设置为紫色 */
-    }
-
-    .module {
-        margin-bottom: 20px;
-    }
-    .copy {
-        margin-right: 12px;
-    }
-    .dow {
-        width: 120px;
-    }
-    .qrCode {
-        margin-top: 12px;  
-        display: flex;
-        flex-direction: row-reverse;
-        canvas { 
-            padding: 4px;
-            border-radius: 4px;
-            background-color: #fff;
-            display: block;
-        }
-    }
-    .icon { 
-        position: relative;
-    }
-    .expression {
-        position: absolute;
-        background: var(--current-block-background-color);
-        padding: 12px;
-        border-radius: 12px;
-        box-shadow: 2px 2px 50px -20px #00000080;
-        bottom: 36px;
-        left: 0; 
-        z-index: 2;
-        width: 447px;
-        max-height: 500px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .emjo {
-        font-size: 24px;
-        cursor: pointer;
-        margin: 6px;
-        border: 1px solid var(--current-block-background-color);
-        &:hover {
-            border: 1px solid var(--theme-color);
-        }
-    }
-    .smile {
-        font-size: 28px;
-        cursor: pointer;
-        transition: all .1s;
-        color: var(--text);
-        &:hover {
-            color: var(--theme-color);
-        }
-    }
-    .mask {
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-    }
-
-    .button-group {
-        align-items: center;
-    }
-    .font-select {
-        display: flex;
-    }
-    .font-family {
-        cursor: pointer;
-        background: #e8e8e8;
-        border-radius: 4px;
-        padding: 6px 8px;
-        margin-right: 12px;
-        text-align: center;
-        transition: all .1s ease;
-        cursor: pointer;
-    }
-    .fontFamilyOn {
-        background: var(--theme-color);
-        color: #fff;
-    }
-    .preview {
-        vertical-align: bottom;
-        height: 40px;
-        margin-left: 12px;
-    }
-    .watermarkImage {
-        position: absolute;
-        right: 24px;
-        bottom: 12px;
-        height: 22px;
-    }
-}
+@import './index.less';
+@import './mobile.less';
 </style>

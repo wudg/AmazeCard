@@ -1,0 +1,50 @@
+@media (max-width: 1000px) {
+    /* 在屏幕宽度小于1000像素时应用的样式 */
+
+    .layout-wrapper {
+        display: block;
+        .left {
+            margin: 0;
+        }
+        .top {
+            border-radius: 0;
+            padding: 0;
+            min-height: auto;
+        }
+        .bottom {
+            border-radius: 0;
+            margin-top: 80px;
+        }
+        .right {
+            margin-top: 12px;
+            .options {
+                border-radius: 0;
+            }
+        }
+
+        .expression {
+            width: 306px;
+        }
+        .top{
+            box-shadow: none;
+        }
+        .top.mobile {
+            display: block;
+            position: fixed;
+            top: 52px;
+            left: 0;
+            z-index: 1;
+            box-shadow: 2px 2px 50px -20px #00000080;
+        }
+        .mobile.select {
+            padding: 12px;
+            justify-content: center;
+        }
+        .dow {
+            width: auto;
+        }
+        .button-group {
+            display: none;
+        }
+    }
+}
