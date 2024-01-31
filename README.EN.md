@@ -56,3 +56,9 @@ Generate exquisite images with just one click based on text and emoticons
 ### V1.0.3 2024-01-26 16:50
 
 1. Adapt to mobile devices
+
+
+### V1.0.4 2024-01-31 21:11
+
+1. Adapt to mobile devices optimize
+

@@ -32,6 +32,7 @@ import {
     Popup,
     RadioGroup,
     Radio, 
+    ActionSheet,
     Switch,  
 } from 'vant';
 
@@ -47,6 +48,7 @@ app.use(Icon);
 app.use(Button);
 app.use(Dialog); 
 app.use(Loading);
+app.use(ActionSheet);
 app.use(Popup); 
 app.use(RadioGroup); 
 app.use(Radio);    

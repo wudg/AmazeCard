@@ -150,8 +150,10 @@ const selectOption = (option) => {
         color: var(--theme-color);
     }
     .icon-wrapper {
-        margin-top: -2px;
-        margin-left: 2px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         .van-icon{
             color: var(--theme-color);
             font-size: 16px;
