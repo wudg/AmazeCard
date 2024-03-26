@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import eslintPlugin from 'vite-plugin-eslint';
 import {join} from 'path';
+import inject from '@rollup/plugin-inject';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,6 +22,10 @@ export default defineConfig({
         // 增加下面的配置项,这样在运行时就能检查eslint规范
         eslintPlugin({
             include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue']
+        }),
+        inject({
+            'window.Quill': ['@vueup/vue-quill', 'Quill'],
+            Quill: ['@vueup/vue-quill', 'Quill']
         })
     ],
     //配置src目录别名

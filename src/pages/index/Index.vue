@@ -3,10 +3,10 @@
         <div class="left">
             <div class="top">
                 <div class="content-box" ref="contentToCapture" :class="config.backgroundColor">
-                    <div class="content" :style="[config.theme, config.radius, config.margin, config.padding]">
-                        <p :style="config.color" :class="[config.fontFamily]">
-                            {{ config.content }}
-                        </p>
+                    <div class="content quillEditor ql-container ql-snow" :style="[config.theme, config.radius, config.margin, config.padding]">
+                        <div :style="config.color" :class="[config.fontFamily]" class="ql-editor">
+                            <div v-html="config.content"></div>
+                        </div>
                         <div v-if="qrCode" class="qrCode">
                             <qrcode-vue :value="qrCode" :size="52"></qrcode-vue>
                         </div>
@@ -35,20 +35,23 @@
                 <div class="input-title"> 
                     <!-- 标签 -->
                     <div class="icon flex">
-                        <div class="smile" @click="clickShowEmjo()">
+                        <!-- <div class="smile" @click="clickShowEmjo()">
                             <van-icon name="smile-o" class=""/>
-                        </div>
+                        </div> -->
                         <div class="expression" v-show="emjoShow">
                             <span class="emjo" :title="item.name" v-for="(item, index) in emjoList" :key="index" @click="clickEmjo(item.lable)">{{ item.lable }}</span>
                         </div>
                     </div>
-                    <div class="input-icon" @click="config.content = ''">
+                    <!-- <div class="input-icon" @click="config.content = ''">
                         {{ $t("clean") }}
-                    </div>
+                    </div> -->
                 </div>
 
-                <div class="textarea-content">
-                    <textarea class="textarea__inner" ref="textarea" v-model="config.content" :placeholder="$t('contnet_text_title')"></textarea>
+                <div class="textarea-content"> 
+
+                    <richText v-model="config.content" />
+
+                    <!-- <textarea class="textarea__inner" ref="textarea" v-model="config.content" :placeholder="$t('contnet_text_title')"></textarea> -->
                 </div>
 
                 <div class="input-title">
@@ -259,7 +262,10 @@ import util from '../../util/util';
 import { useI18n } from 'vue-i18n'; 
 import vue3Slider from 'vue3-slider';
 import QrcodeVue from 'qrcode.vue';
-import emjo from '../../assets/expression.json';
+import emjo from '../../assets/expression.json'; 
+import richText from '../../components/richText.vue';
+ 
+
 
 // 获取 i18n 实例
 const { t } = useI18n(); 
@@ -284,9 +290,7 @@ let paddingAbout = ref(40);
 let paddingUpDown = ref(40);
 onMounted(() => {
     isWeChat.value = isWeixinBrowser(); // 判断是否在微信环境中
-});
-
-
+}); 
 const isWeixinBrowser = () => {
     const ua = window.navigator.userAgent.toLowerCase();
     return ua.includes('micromessenger');
@@ -492,5 +496,5 @@ onBeforeMount(async () => {
 
 <style lang="less">
 @import './index.less';
-@import './mobile.less';
+@import './mobile.less'; 
 </style>

@@ -62,3 +62,8 @@ Generate exquisite images with just one click based on text and emoticons
 
 1. Adapt to mobile devices optimize
 
+
+### V1.0.5 2024-03-26 22:30
+1. Add rich text editing functionality
+2. delete a tap
+
