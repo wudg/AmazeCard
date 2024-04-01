@@ -7,7 +7,7 @@
 
 ## 在线访问
 
-http://card.wudiguang.top/
+https://card.wudiguang.top/
 
 ## 关于
 
