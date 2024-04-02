@@ -67,3 +67,7 @@ Generate exquisite images with just one click based on text and emoticons
 1. Add rich text editing functionality
 2. delete a tap
 
+
+### V1.0.6 2024-04-02 22:53
+1. Add jump to GitHub
+2. Add WeChat QR code

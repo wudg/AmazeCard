@@ -28,15 +28,23 @@
             </div>
         </div>
         <component :is="Component" /> 
+        <div class="add">
+            <img src="./assets/git.svg" alt="" class="add-icon" @click="toGithub">
+            <img src="./assets/wx.svg" alt="" class="add-icon wechat-icon">
+            <img src="./assets/wechat1.jpg" alt="" class="wechat"> 
+        </div>
+         
     </router-view>
 </template>
 
 <script setup> 
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
+import { showToast } from 'vant';
 
 const { locale } = useI18n();
 let isOpen = ref(false);
+let show = ref(true);
 
 let checked = ref(localStorage.getItem('theme') === 'dark' ? true : false);
 
@@ -51,6 +59,10 @@ let options = ref([
         value: 'en'
     }
 ]);
+
+const toGithub = () => {
+    window.open('https://github.com/wudg/AmazeCard');
+};
 
 // 切换语言
 const changeLocale = (lang) => {
@@ -85,7 +97,7 @@ const selectOption = (option) => {
 
 </script>
 
-<style scoped lang="less">
+<style scoped lang="less"> 
 .head {
     width: 100%;
     display: flex;
@@ -159,6 +171,32 @@ const selectOption = (option) => {
             font-size: 16px;
         }
     }
+}
+.add { 
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+}
+.wechat {
+    position: absolute;
+    width: 370px;
+    bottom: 45px;
+    left: -85px;
+    box-shadow: 2px 2px 50px -28px #00000080;
+    border-radius: 10px;
+    display: none;
+}
+.add-icon {
+    width: 32px;
+    background: #201e25;
+    border-radius: 50%;
+    margin: 0 12px;
+    cursor: pointer;
+    padding: 2px;
+}
+.wechat-icon:hover + .wechat {
+    display: block;
 }
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="layout-wrapper" ref="container">  
+    <div class="layout-wrapper" ref="container"> 
         <div class="left">
             <div class="top">
                 <div class="content-box" ref="contentToCapture" :class="config.backgroundColor">
@@ -244,8 +244,6 @@
         <van-dialog :show="imageShow" title="图片以生成，请长按保存" width="500px" @confirm="imageShow = false">
             <img :src="imgSrc" style="width: 100%; margin-top: 12px;"/>
         </van-dialog>
-
-
 
     </div>
 </template>
