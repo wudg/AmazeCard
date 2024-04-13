@@ -30,13 +30,13 @@ const toolbarOptions = [
     // 1、2 级标题-----[{ header: 1 }, { header: 2 }]
     [{ header: 1 }, { header: 2 }],
     // 有序、无序列表-----[{ list: 'ordered' }, { list: 'bullet' }]
-    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ list: 'bullet' }],
     // 上标/下标-----[{ script: 'sub' }, { script: 'super' }]
     [{ script: 'sub' }, { script: 'super' }],
     // 缩进-----[{ indent: '-1' }, { indent: '+1' }]
     [{ indent: '-1' }, { indent: '+1' }],
     // 文本方向-----[{'direction': 'rtl'}]
-    [{ direction: 'rtl' }],
+    [{ direction: 'rtl' }], 
     // 字体大小-----[{ size: ['small', false, 'large', 'huge'] }]
     [{ size: ['small', false, 'large', 'huge'] }],
     // 标题-----[{ header: [1, 2, 3, 4, 5, 6, false] }]
@@ -51,7 +51,7 @@ const toolbarOptions = [
     ['clean'],
     // 链接、图片、视频-----['link', 'image', 'video']
     ['link', 'image', 'video', 'table'],
-    ['table'] // 表格
+    ['table'] // 表格 
 ];
 
 export default defineComponent({

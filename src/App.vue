@@ -4,6 +4,12 @@
         <div class="head"> 
             <div class="logo">
                 {{ $t("logo") }}
+                
+                <div class="add">
+                    <img src="./assets/git.svg" alt="" class="add-icon" @click="toGithub">
+                    <img src="./assets/wx.svg" alt="" class="add-icon wechat-icon">
+                    <img src="./assets/wechat1.jpg" alt="" class="wechat"> 
+                </div>
             </div>
             <div class="right">
                 <div class="custom-select">
@@ -28,11 +34,6 @@
             </div>
         </div>
         <component :is="Component" /> 
-        <div class="add">
-            <img src="./assets/git.svg" alt="" class="add-icon" @click="toGithub">
-            <img src="./assets/wx.svg" alt="" class="add-icon wechat-icon">
-            <img src="./assets/wechat1.jpg" alt="" class="wechat"> 
-        </div>
          
     </router-view>
 </template>
@@ -111,6 +112,8 @@ const selectOption = (option) => {
         color: var(--text);
         font-size: 24px;
         padding: 12px 0;
+        flex: 1;
+        display: flex;
     }
 
     .right {
@@ -172,23 +175,24 @@ const selectOption = (option) => {
         }
     }
 }
-.add { 
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
+.add {  
     position: relative;
+    display: flex;
+    align-items: center;
 }
-.wechat {
+.wechat { 
     position: absolute;
     width: 370px;
-    bottom: 45px;
+    bottom: -511px;
     left: -85px;
     box-shadow: 2px 2px 50px -28px #00000080;
     border-radius: 10px;
     display: none;
+    z-index: 123;
 }
 .add-icon {
-    width: 32px;
+    width: 24px;
+    height: 24px;
     background: #201e25;
     border-radius: 50%;
     margin: 0 12px;
@@ -203,6 +207,11 @@ const selectOption = (option) => {
 @media (max-width: 1000px) {
     .head {
         padding: 0 12px;
+    }
+    .wechat {  
+        width: 200px;
+        bottom: -276px;
+        left: -46px;
     }
 }
 </style>

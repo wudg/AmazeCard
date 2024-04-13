@@ -71,3 +71,6 @@ Generate exquisite images with just one click based on text and emoticons
 ### V1.0.6 2024-04-02 22:53
 1. Add jump to GitHub
 2. Add WeChat QR code
+
+### V1.0.7 2024-04-13 22:00
+1. Modifying bugs
