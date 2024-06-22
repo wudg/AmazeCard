@@ -18,10 +18,9 @@
     .top {
         position: relative;
         background: var(--current-block-background-color);
-        padding: 20px;
-        min-height: 300px;
+        width: 100%; /* 固定宽度 */
+        height: 500px; /* 父元素高度 */ 
         border-radius: 16px; 
-
         transition: all .1s;
         display: flex;
         align-items: center;
@@ -54,6 +53,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 100%;
     }
 
@@ -61,9 +64,10 @@
         font-size: 14px;
         line-height: 26px;
         letter-spacing: .4px;
+        height: auto;
         white-space: pre-wrap;
         word-break: break-word;
-        border: 1px solid hsla(0, 0%, 100%, .1);
+        border: 1px solid hsla(0, 0%, 100%, .0);
 
     }
 
@@ -347,5 +351,39 @@
         right: 24px;
         bottom: 12px;
         height: 22px;
+    }
+    .size_box {
+        text-align: center;
+        color: var(--theme-color);
+        margin-right: 12px;
+        .font-family {
+            margin-right: 0;
+        }
+    }
+    .custom {
+        display: inline-block;
+        color: var(--theme-color);
+        text-align: center;
+        margin-top: 8px;
+        line-height: 28px;
+        .input {
+            flex: 1;
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .item-input {
+            height: 28px;
+            line-height: 28px;
+            border-radius: 4px;
+            border: 1px solid var(--theme-color);
+            padding: 0 6px;
+            width: 80px;
+        }
+        span {
+            margin: 0 5px;
+            height: 28px;
+            font-size: 28px;
+            line-height: 38px;
+        }
     }
 }

@@ -74,3 +74,7 @@ Generate exquisite images with just one click based on text and emoticons
 
 ### V1.0.7 2024-04-13 22:00
 1. Modifying bugs
+
+
+### V1.0.8 2024-06-22 21:31
+1. Add custom sizes and select preset sizes

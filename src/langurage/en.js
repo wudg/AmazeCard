@@ -14,6 +14,9 @@ export default {
     options_opaque_light: 'Light',
     options_watermark_text: 'Text',
     options_watermark_img: 'Image',
+    
+    options_size: 'size',
+    options_custom: 'custom',
     contnet_text_title: '😎 Write your memo here:',
     contnet_url_title: '🔗 You can also post a link to the content:',
     contnet_watermark_title: '🪄 Add your own watermark:', 

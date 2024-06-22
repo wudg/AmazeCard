@@ -1,9 +1,9 @@
 <template>
     <div class="layout-wrapper" ref="container"> 
         <div class="left">
-            <div class="top">
-                <div class="content-box" ref="contentToCapture" :class="config.backgroundColor">
-                    <div class="content quillEditor ql-container ql-snow" :style="[config.theme, config.radius, config.margin, config.padding]">
+            <div class="top" ref="topRef">
+                <div class="content-box" ref="contentToCapture" :style="[{width: wS}, {height: hS} , config.margin]" :class="config.backgroundColor">
+                    <div class="content quillEditor ql-container ql-snow" :style="[config.theme, config.radius, config.padding]">
                         <div :style="config.color" :class="[config.fontFamily]" class="ql-editor">
                             <div v-html="config.content"></div>
                         </div>
@@ -121,6 +121,29 @@
                         </div>
                     </div>
                 </div>
+                <!-- 尺寸 -->
+
+                <div class="module">
+                    <div class="options-title">{{ $t("options_size") }}</div>
+                    <div class="font-select">
+                        <div class="size_box" v-for="(item, index) in sizeList" :key="'size_'+index" @click="onClickSize(index)">
+                            <div class="font-family" :class="{fontFamilyOn: sizeValue === index}">
+                                {{ item.w }} * {{ item.h }}
+                            </div>
+                            {{ item.name }}
+                        </div> 
+                    </div>
+                    
+                    <div class="custom" @click="onClickSize(-1)">
+                        <div class="input">
+                            <input type="number" class="item-input" v-model="customW" @input="inputSize"/> 
+                            <span>*</span>
+                            <input type="number" class="item-input" v-model="customH" @input="inputSize"/>
+                        </div>
+                        {{ $t("options_custom") }}
+                    </div>
+                </div>
+
                 <!-- 外观 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_theme_title") }}</div>
@@ -195,6 +218,27 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 尺寸 -->
+                    <div class="module">
+                        <div class="options-title">{{ $t("options_size") }}</div>
+                        <div class="font-select">
+                            <div class="size_box" v-for="(item, index) in sizeList" :key="'size_'+index" @click="onClickSize(index)">
+                                <div class="font-family" :class="{fontFamilyOn: sizeValue === index}">
+                                    {{ item.w }} * {{ item.h }}
+                                </div>
+                                {{ item.name }}
+                            </div> 
+                        </div>
+                        
+                        <div class="custom" @click="onClickSize(-1)">
+                            <div class="input">
+                                <input type="number" class="item-input" v-model="customW" @input="inputSize"/> 
+                                <span>*</span>
+                                <input type="number" class="item-input" v-model="customH" @input="inputSize"/>
+                            </div>
+                            {{ $t("options_custom") }}
+                        </div>
+                    </div>
                     <!-- 外观 -->
                     <div class="module">
                         <div class="options-title">{{ $t("options_theme_title") }}</div>
@@ -249,7 +293,7 @@
 </template>
 
 <script setup> 
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref, computed } from 'vue';
 import { get, post } from '../../api/http';
 import interfaces from '../../api/interfaces';
 import { useSetUser, useAuth } from '../../util/composables';
@@ -261,6 +305,7 @@ import { useI18n } from 'vue-i18n';
 import vue3Slider from 'vue3-slider';
 import QrcodeVue from 'qrcode.vue';
 import emjo from '../../assets/expression.json'; 
+import size from '../../assets/size.json'; 
 import richText from '../../components/richText.vue';
  
 
@@ -268,7 +313,9 @@ import richText from '../../components/richText.vue';
 // 获取 i18n 实例
 const { t } = useI18n(); 
 const qrCode = ref(null);
+const topRef = ref(null);
 const emjoList = ref(emjo);
+const sizeList = ref(size);
 const emjoShow = ref(false);
 const mobileSetShow = ref(false);
 const imageShow = ref(false);
@@ -276,6 +323,8 @@ const imgSrc = ref('');
 const textarea = ref(); 
 const isWeChat = ref(false); // 默认不是微信环境
 
+const hS = ref(null);
+const wS = ref(null);
 
 let opacity = ref(50);
 let radius = ref(12);
@@ -286,14 +335,63 @@ let marginUpDown = ref(40);
 
 let paddingAbout = ref(40);
 let paddingUpDown = ref(40);
+
+let sizeValue = ref(0);
+
+let customW = ref(null);
+let customH = ref(null);
+
 onMounted(() => {
     isWeChat.value = isWeixinBrowser(); // 判断是否在微信环境中
+    computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
 }); 
+
+
+
 const isWeixinBrowser = () => {
     const ua = window.navigator.userAgent.toLowerCase();
     return ua.includes('micromessenger');
 };
 
+
+// 动态计算div的宽高来按照一定的比例自适应
+const computeWH = function(w, h, box_width, box_height) {
+    const scale = w / h; // 比例
+    if (scale <= box_width / box_height) {
+        wS.value = `${box_height * scale}px`; // 计算宽
+        hS.value = `${box_height}px`; // 计算高
+    } else {
+        wS.value = `${box_width}px`;
+        hS.value = `${box_width / scale}px`;
+    }
+};
+
+const onClickSize = function(index) {
+    if (index === -1) {
+        console.log(sizeValue.value);
+        if(sizeValue.value === -1) {
+            return;
+        }
+        customW.value = sizeList.value[sizeValue.value].w;
+        customH.value = sizeList.value[sizeValue.value].h; 
+        sizeValue.value = index;
+        computeWH(customW.value, customH.value, topRef.value.clientWidth, topRef.value.clientHeight );
+        return;
+    }
+    customW.value = null;
+    customH.value = null;
+    sizeValue.value = index;
+    computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
+};
+
+const inputSize = function(e) { 
+    let value = e.target.value;
+    if(!value || value < 100) {
+        return;
+    }
+    computeWH(customW.value, customH.value, topRef.value.clientWidth, topRef.value.clientHeight );
+};
+ 
 // 获取DOM元素引用
 const contentToCapture = ref(null);
 async function captureElement() {
@@ -480,7 +578,7 @@ const integrationTheme = () => {
     config.value.theme = `background: rgba(${rgb}, ${opacity.value / 100})`;
     config.value.color = `color: rgb(${color})`;
     config.value.radius = `border-radius: ${radius.value}px`; 
-    config.value.margin = `margin: ${marginUpDown.value}px ${marginAbout.value}px`;
+    config.value.margin = `padding: ${marginUpDown.value}px ${marginAbout.value}px`;
     config.value.padding = `padding: ${paddingUpDown.value}px ${paddingAbout.value}px`;
 };
 

@@ -15,7 +15,9 @@ export default {
 
     options_watermark_text: '文本',
     options_watermark_img: '图片',
+    options_size: '尺寸',
 
+    options_custom: '自定义',
     contnet_text_title: '😎 在这里写下你的内容:',
     contnet_url_title: '🔗 也可以贴上内容的链接:',
     contnet_watermark_title: '🪄 还可以添加自己的水印:',
