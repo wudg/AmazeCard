@@ -1,12 +1,36 @@
 [
     {
         "name": "横板",
-        "w": 1920,
-        "h": 1080
+        "w": 16,
+        "h": 9,
+        "pcPaddingAbout": 40,
+        "pcPaddingUpDown": 40,
+        "pcFontSize": 14,
+        "pcMarginAbout": 40,
+        "pcMarginUpDown": 40,
+        
+        "mbPaddingAbout": 0,
+        "mbPaddingUpDown": 0,
+        "mbFontSize": 10,
+        "mbMarginAbout": 20,
+        "mbMarginUpDown": 20
+
     },
     {
         "name": "竖板",
-        "w": 1080,
-        "h": 1920
+        "w": 9,
+        "h": 16,
+        "pcPaddingAbout": 0,
+        "pcPaddingUpDown": 0,
+        "pcFontSize": 10,
+        "pcMarginAbout": 10,
+        "pcMarginUpDown": 10,
+
+        "mbPaddingAbout": 0,
+        "mbPaddingUpDown": 0,
+        "mbFontSize": 10,
+        "mbMarginAbout": 10,
+        "mbMarginUpDown": 10
+
     }
 ]

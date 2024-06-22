@@ -14,6 +14,7 @@ export default {
     options_opaque_light: 'Light',
     options_watermark_text: 'Text',
     options_watermark_img: 'Image',
+    options_font_size_title: 'Font size',
     
     options_size: 'size',
     options_custom: 'custom',

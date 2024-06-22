@@ -16,6 +16,7 @@ export default {
     options_watermark_text: '文本',
     options_watermark_img: '图片',
     options_size: '尺寸',
+    options_font_size_title: '字体大小',
 
     options_custom: '自定义',
     contnet_text_title: '😎 在这里写下你的内容:',

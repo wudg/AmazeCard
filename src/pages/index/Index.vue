@@ -3,7 +3,7 @@
         <div class="left">
             <div class="top" ref="topRef">
                 <div class="content-box" ref="contentToCapture" :style="[{width: wS}, {height: hS} , config.margin]" :class="config.backgroundColor">
-                    <div class="content quillEditor ql-container ql-snow" :style="[config.theme, config.radius, config.padding]">
+                    <div class="content quillEditor ql-container ql-snow" :style="[config.theme, config.radius, config.padding, config.fontSize]">
                         <div :style="config.color" :class="[config.fontFamily]" class="ql-editor">
                             <div v-html="config.content"></div>
                         </div>
@@ -128,7 +128,7 @@
                     <div class="font-select">
                         <div class="size_box" v-for="(item, index) in sizeList" :key="'size_'+index" @click="onClickSize(index)">
                             <div class="font-family" :class="{fontFamilyOn: sizeValue === index}">
-                                {{ item.w }} * {{ item.h }}
+                                {{ item.w }}:{{ item.h }}
                             </div>
                             {{ item.name }}
                         </div> 
@@ -137,7 +137,7 @@
                     <div class="custom" @click="onClickSize(-1)">
                         <div class="input">
                             <input type="number" class="item-input" v-model="customW" @input="inputSize"/> 
-                            <span>*</span>
+                            <span>:</span>
                             <input type="number" class="item-input" v-model="customH" @input="inputSize"/>
                         </div>
                         {{ $t("options_custom") }}
@@ -154,11 +154,19 @@
                         </van-radio-group>
                     </div>
                 </div>
+
+                <!-- 字体大小 -->
+                <div class="module">
+                    <div class="options-title">{{ $t("options_font_size_title") }}</div>
+                    <vue3-slider v-model="fontSize" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="50" :min="6"></vue3-slider>
+                </div>
+
                 <!-- 透明度 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_opaque_title") }}</div>
                     <vue3-slider v-model="opacity" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff"></vue3-slider>
                 </div>
+
                 <!-- 卡片边角 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_round_title") }}</div>
@@ -167,22 +175,22 @@
                 <!-- 背景尺寸 上下 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_bgSzUpDown_title") }}</div>
-                    <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                    <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="0"></vue3-slider>
                 </div>
                 <!-- 背景尺寸 左右 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_bgSzAbout_title") }}</div>
-                    <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                    <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="0"></vue3-slider>
                 </div>
                 <!-- 卡片尺寸 上下 -->
                 <div class="module">
                     <div class="options-title">{{ $t("options_cardSzUpDown_title") }}</div>
-                    <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                    <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="0"></vue3-slider>
                 </div>
                 <div class="module">
                     <!-- 卡片尺寸 左右 -->
                     <div class="options-title">{{ $t("options_cardSzAbout_title") }}</div>
-                    <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                    <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="0"></vue3-slider>
                 </div>
                 
                 <div class="button-group flex">
@@ -224,7 +232,7 @@
                         <div class="font-select">
                             <div class="size_box" v-for="(item, index) in sizeList" :key="'size_'+index" @click="onClickSize(index)">
                                 <div class="font-family" :class="{fontFamilyOn: sizeValue === index}">
-                                    {{ item.w }} * {{ item.h }}
+                                    {{ item.w }}:{{ item.h }}
                                 </div>
                                 {{ item.name }}
                             </div> 
@@ -233,7 +241,7 @@
                         <div class="custom" @click="onClickSize(-1)">
                             <div class="input">
                                 <input type="number" class="item-input" v-model="customW" @input="inputSize"/> 
-                                <span>*</span>
+                                <span>:</span>
                                 <input type="number" class="item-input" v-model="customH" @input="inputSize"/>
                             </div>
                             {{ $t("options_custom") }}
@@ -249,6 +257,12 @@
                             </van-radio-group>
                         </div>
                     </div>
+                    <!-- 字体大小 -->
+                    <div class="module">
+                        <div class="options-title">{{ $t("options_font_size_title") }}</div>
+                        <vue3-slider v-model="fontSize" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="50" :min="6"></vue3-slider>
+                    </div>
+
                     <!-- 透明度 -->
                     <div class="module">
                         <div class="options-title">{{ $t("options_opaque_title") }}</div>
@@ -262,22 +276,22 @@
                     <!-- 背景尺寸 上下 -->
                     <div class="module">
                         <div class="options-title">{{ $t("options_bgSzUpDown_title") }}</div>
-                        <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                        <vue3-slider v-model="marginUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200"></vue3-slider>
                     </div>
                     <!-- 背景尺寸 左右 -->
                     <div class="module">
                         <div class="options-title">{{ $t("options_bgSzAbout_title") }}</div>
-                        <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="20"></vue3-slider>
+                        <vue3-slider v-model="marginAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200"></vue3-slider>
                     </div>
                     <!-- 卡片尺寸 上下 -->
                     <div class="module">
                         <div class="options-title">{{ $t("options_cardSzUpDown_title") }}</div>
-                        <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                        <vue3-slider v-model="paddingUpDown" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200"></vue3-slider>
                     </div>
                     <div class="module">
                         <!-- 卡片尺寸 左右 -->
                         <div class="options-title">{{ $t("options_cardSzAbout_title") }}</div>
-                        <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200" :min="10"></vue3-slider>
+                        <vue3-slider v-model="paddingAbout" :tooltip="true" @change="integrationTheme" :handleScale="4" trackColor="#eeeeee" color="#6c56f6" tooltipColor="#6c56f6" tooltipTextColor="#ffffff" :max="200"></vue3-slider>
                     </div> 
                 </div>
             </div>
@@ -329,6 +343,7 @@ const wS = ref(null);
 let opacity = ref(50);
 let radius = ref(12);
 let theme = ref(1);
+let fontSize = ref(12);
 
 let marginAbout = ref(40);
 let marginUpDown = ref(40);
@@ -341,12 +356,7 @@ let sizeValue = ref(0);
 let customW = ref(null);
 let customH = ref(null);
 
-onMounted(() => {
-    isWeChat.value = isWeixinBrowser(); // 判断是否在微信环境中
-    computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
-}); 
-
-
+const isMobile = ref(false);
 
 const isWeixinBrowser = () => {
     const ua = window.navigator.userAgent.toLowerCase();
@@ -367,8 +377,7 @@ const computeWH = function(w, h, box_width, box_height) {
 };
 
 const onClickSize = function(index) {
-    if (index === -1) {
-        console.log(sizeValue.value);
+    if (index === -1) { 
         if(sizeValue.value === -1) {
             return;
         }
@@ -381,12 +390,28 @@ const onClickSize = function(index) {
     customW.value = null;
     customH.value = null;
     sizeValue.value = index;
+
+    if(!isMobile.value){
+        paddingAbout.value = sizeList.value[sizeValue.value].pcPaddingAbout;
+        paddingUpDown.value = sizeList.value[sizeValue.value].pcPaddingUpDown;
+        fontSize.value = sizeList.value[sizeValue.value].pcFontSize;
+        marginAbout.value = sizeList.value[sizeValue.value].pcMarginAbout;
+        marginUpDown.value = sizeList.value[sizeValue.value].pcMarginUpDown;
+    } else {
+        paddingAbout.value = sizeList.value[sizeValue.value].mbPaddingAbout;
+        paddingUpDown.value = sizeList.value[sizeValue.value].mbPaddingUpDown;
+        fontSize.value = sizeList.value[sizeValue.value].mbFontSize;
+        marginAbout.value = sizeList.value[sizeValue.value].mbMarginAbout;
+        marginUpDown.value = sizeList.value[sizeValue.value].mbMarginUpDown;
+    }
+    
+    integrationTheme();  
     computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
 };
 
 const inputSize = function(e) { 
     let value = e.target.value;
-    if(!value || value < 100) {
+    if(!value || value < 0) {
         return;
     }
     computeWH(customW.value, customH.value, topRef.value.clientWidth, topRef.value.clientHeight );
@@ -401,7 +426,7 @@ async function captureElement() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 4
+                scale: 5
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -427,7 +452,7 @@ const generateImg = async () => {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 4
+                scale: 5
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -452,7 +477,7 @@ async function copyImg() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 4
+                scale: 5
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -550,6 +575,7 @@ let config = ref({
     margin: '', // 背景上下尺寸
     padding: '', // 背景上下尺寸
     content: '', // 内容
+    fontSize: '', // 内容
     http: '', // 内容
     watermarkType: 0, // 水印类型
     watermarkImageUrl: '', // 水印图片
@@ -580,14 +606,41 @@ const integrationTheme = () => {
     config.value.radius = `border-radius: ${radius.value}px`; 
     config.value.margin = `padding: ${marginUpDown.value}px ${marginAbout.value}px`;
     config.value.padding = `padding: ${paddingUpDown.value}px ${paddingAbout.value}px`;
+    config.value.fontSize = `font-size: ${fontSize.value}px`;
+};
+// 检查屏幕尺寸
+const checkMobile = () => {
+    isMobile.value = window.matchMedia('(max-width: 767px)').matches;
 };
 
-
 onBeforeMount(async () => {
+  
+
     config.value.content = t('default_Text');
-    integrationTheme();
+
 }); 
 
+onMounted(async () => {
+    checkMobile();
+    isWeChat.value = isWeixinBrowser(); // 判断是否在微信环境中
+
+    if(!isMobile.value){
+        paddingAbout.value = sizeList.value[sizeValue.value].pcPaddingAbout;
+        paddingUpDown.value = sizeList.value[sizeValue.value].pcPaddingUpDown;
+        fontSize.value = sizeList.value[sizeValue.value].pcFontSize;
+        marginAbout.value = sizeList.value[sizeValue.value].pcMarginAbout;
+        marginUpDown.value = sizeList.value[sizeValue.value].pcMarginUpDown;
+    } else {
+        paddingAbout.value = sizeList.value[sizeValue.value].mbPaddingAbout;
+        paddingUpDown.value = sizeList.value[sizeValue.value].mbPaddingUpDown;
+        fontSize.value = sizeList.value[sizeValue.value].mbFontSize;
+        marginAbout.value = sizeList.value[sizeValue.value].mbMarginAbout;
+        marginUpDown.value = sizeList.value[sizeValue.value].mbMarginUpDown;
+    }
+
+    integrationTheme();  
+    computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
+});
 </script>
 
 <style lang="less">
