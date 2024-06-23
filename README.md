@@ -9,6 +9,16 @@
 
 https://card.wudiguang.top/
 
+
+
+## 私有化部署
+
+一键免费部署你的私人`AmazeCard`
+
+[演示 Demo](https://amaze-card-git-master-wudgs-projects.vercel.app/) / [反馈 Issues](https://github.com/wudg/AmazeCard/issues)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwudg%2FAmazeCard&project-name=amaze-card-web&repository-name=amaze-card-Web)
+
 ## 关于
 
 AmazeCard是一个在线工具，可以将文字和表情符号转换为图片。它可以自定义生成图像的颜色和卡片样式，以及自定义水印（文本或logo），还可以在生成的图像中放置链接并形成相应的二维码。
