@@ -430,7 +430,7 @@ async function captureElement() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 5
+                scale: 10
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -456,7 +456,7 @@ const generateImg = async () => {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 5
+                scale: 10
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -481,7 +481,7 @@ async function copyImg() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 5
+                scale: 10
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
