@@ -2,7 +2,7 @@
     <div class="layout-wrapper" ref="container"> 
         <div class="left">
             <div class="top" ref="topRef">
-                <div class="content-box" ref="contentToCapture" :style="[{width: wS}, {height: hS} , config.margin]" :class="config.backgroundColor">
+                <div class="content-box" ref="contentToCapture" :style="[{width: wS}, hS, config.margin]" :class="config.backgroundColor">
                     <div class="content quillEditor ql-container ql-snow" :style="[config.theme, config.radius, config.padding, config.fontSize]">
                         <div :style="config.color" :class="[config.fontFamily]" class="ql-editor">
                             <div v-html="config.content"></div>
@@ -49,7 +49,7 @@
 
                 <div class="textarea-content"> 
 
-                    <richText v-model="config.content" />
+                    <richText v-model="config.content" @input="richTextInput"/>
 
                     <!-- <textarea class="textarea__inner" ref="textarea" v-model="config.content" :placeholder="$t('contnet_text_title')"></textarea> -->
                 </div>
@@ -307,7 +307,7 @@
 </template>
 
 <script setup> 
-import { onBeforeMount, onMounted, ref, computed } from 'vue';
+import { onBeforeMount, onMounted, ref, computed, watch } from 'vue';
 import { get, post } from '../../api/http';
 import interfaces from '../../api/interfaces';
 import { useSetUser, useAuth } from '../../util/composables';
@@ -367,12 +367,16 @@ const isWeixinBrowser = () => {
 // 动态计算div的宽高来按照一定的比例自适应
 const computeWH = function(w, h, box_width, box_height) {
     const scale = w / h; // 比例
-    if (scale <= box_width / box_height) {
+    if (scale <= box_width / box_height) { 
+        if((box_height * scale) > box_width) {
+            return;
+        }
         wS.value = `${box_height * scale}px`; // 计算宽
-        hS.value = `${box_height}px`; // 计算高
-    } else {
+        hS.value = `min-height: ${box_height}px`; // 计算高
+    } else { 
         wS.value = `${box_width}px`;
-        hS.value = `${box_width / scale}px`;
+        hS.value = `height: ${box_width / scale}px`;
+
     }
 };
 
@@ -426,7 +430,7 @@ async function captureElement() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 5
+                scale: 10
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -452,7 +456,7 @@ const generateImg = async () => {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 5
+                scale: 10
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -477,7 +481,7 @@ async function copyImg() {
             const canvas = await html2canvas(contentToCapture.value, {
                 useCORS: true, // 如果有跨域资源，设置为true
                 backgroundColor: '#fff', // 设置背景颜色，默认为白色
-                scale: 5
+                scale: 10
                 // 可以根据需要添加更多配置选项
             });
             // 将canvas转为图片URL
@@ -640,7 +644,23 @@ onMounted(async () => {
 
     integrationTheme();  
     computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
+ 
 });
+const richTextInput = () => {
+    if (topRef.value) {
+        console.log(topRef.value.clientWidth);
+        // 根据元素的尺寸变化更新状态或执行其他逻辑 
+        setTimeout(() => {
+            if(sizeValue.value < 0){
+                computeWH(customW.value, customH.value, topRef.value.clientWidth, topRef.value.clientHeight );
+                return;
+            }
+            computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
+        }, 300);
+    }
+};
+
+ 
 </script>
 
 <style lang="less">
