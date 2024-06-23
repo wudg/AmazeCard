@@ -17,7 +17,7 @@ https://card.wudiguang.top/
 
 [演示 Demo](https://amaze-card-git-master-wudgs-projects.vercel.app/) / [反馈 Issues](https://github.com/wudg/AmazeCard/issues)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwudg%2FAmazeCard&project-name=amaze-card-web&repository-name=amaze-card-Web)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwudg%2FAmazeCard&project-name=amaze-card-web&repository-name=AmazeCard)
 
 ## 关于
 
