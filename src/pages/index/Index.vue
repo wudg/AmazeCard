@@ -374,9 +374,6 @@ const computeWH = function(w, h, box_width, box_height) {
         wS.value = `${box_height * scale}px`; // 计算宽
         hS.value = `min-height: ${box_height}px`; // 计算高
     } else { 
-        console.log(scale);
-        console.log(box_width / (box_width / scale));
-        
         wS.value = `${box_width}px`;
         hS.value = `height: ${box_width / scale}px`;
 
@@ -654,6 +651,10 @@ const richTextInput = () => {
         console.log(topRef.value.clientWidth);
         // 根据元素的尺寸变化更新状态或执行其他逻辑 
         setTimeout(() => {
+            if(sizeValue.value < 0){
+                computeWH(customW.value, customH.value, topRef.value.clientWidth, topRef.value.clientHeight );
+                return;
+            }
             computeWH(sizeList.value[sizeValue.value].w, sizeList.value[sizeValue.value].h, topRef.value.clientWidth, topRef.value.clientHeight );
         }, 300);
     }
